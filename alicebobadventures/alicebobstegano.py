@@ -1,19 +1,50 @@
 #!/usr/bin/python3
-# encode example: hide text to image
+import requests
+import wget
+import webbrowser
+import turtle
 from PIL import Image
-import stepic
-#Open Image or file in which you want to hide your data
-im = Image.open('dogpic.jpg')
-#Convert .jpg to .png otherwise this program will not work
-im.save('dogpic.png')
-#Encode some text into your Image file and save it in another file
-im1 = stepic.encode(im, b'This is a test')
-im1.save('dogpic2.png', 'png')
-#Now is the time to check both images and see if there is any visible changes
-im1 = Image.open('dogpic2.png')
-im1.show()
-#Decode the image so as to extract the hidden data from the image 
-im2 = Image.open('dogpic2.png')
-stegoImage = stepic.decode(im2)
-stegoImage
+from stegano import lsb
+
+#pulling random dog pic url via API and convert JSON to python
+def url():
+    dogs = requests.get("https://random.dog/woof.json")
+    dog_api = dogs.json()
+    return dog_api
+
+#use pulled url to pull up the picture of random dog
+def get_pic():
+    dog_api= url()
+    dog_pic_url = dog_api['url']
+    wget.download(dog_pic_url, '/home/student/static/dogpics/dog.png')
+    browser_pic(dog_pic_url)
+
+#opens the picture in browser
+def browser_pic(url):
+    webbrowser.open(url)
+
+#show dog pic via turtle
+def show_pic():
+    screen = turtle.Screen()
+    screen.bgpic('/home/student/static/dogpics/dog.png')
+    turtle.mainloop()
+
+get_pic()
+try:
+    show_pic()
+except:
+    input ('Got the dog picture. Press ENTER to run the steganography program.')
+
+#steganography program here (Stegano)
+print ('Alright let\'s hide that message!')
+message = input ("What is the message you want to hide? ")
+#hide message
+secret = lsb.hide ("/home/student/static/dogpics/dog.png", message)
+secret.save("/home/student/static/dogpics/dog2.png")
+#unhide message
+input ('Want to see the hidden message? Press ENTER.')
+clear_message = lsb.reveal("/home/student/static/dogpics/dog2.png")
+print ('Here is the hidden message.')
+print ('\n' + clear_message)
+
 

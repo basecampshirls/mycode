@@ -14,7 +14,7 @@ print (crypto)
 
 #Insert steganography program here
 
-input ('Press ENTER to continue.')
+input ('Press ENTER to decrypt.')
 
 #Alice uses her private key to decrypt Bob's message
 message = rsa.decrypt(crypto, alice_priv)
