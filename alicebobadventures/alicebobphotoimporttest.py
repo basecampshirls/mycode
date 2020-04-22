@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 import requests
 import wget
-import turtle
 import webbrowser
+import turtle
 from PIL import Image
 from stegano import lsb
 from os import remove
@@ -23,7 +23,6 @@ def get_pic():
 #opens the picture in browser
 def browser_pic(url):
     webbrowser.open(url)
-    input("Press ENTER to continue.")
 
 #show dog pic via turtle
 def show_pic():
@@ -31,18 +30,22 @@ def show_pic():
     screen.bgpic('/home/student/static/dogpics/dog.png')
     turtle.mainloop()
 
-#steganography program here (stepic)
+get_pic()
+show_pic()
+
+#steganography program here (Stegano)
 # encode example: hide text to image
 #Open Image or file in which you want to hide your data
 input ("Press ENTER to continue.")
-message = input ("What message do you want to hide?")
-secret = lsb.hide("/home/student/static/dogpics/dog.png", message)
+message = input ("What message do you want to hide? ")
+secret = lsb.hide ("/home/student/static/dogpics/dog.png", message)
 secret.save("/home/student/static/dogpics/dog2.png")
-input ("Press ENTER to continue.")
+#input ("Press ENTER to continue.")
 
-clear_message = lsb.reveal("/home/student/static/dogpics/dog.png")
+clear_message = lsb.reveal("/home/student/static/dogpics/dog2.png")
+print (clear_message)
 
 #remove('/home/student/static/dog.png')
-get_pic()
-#show_pic()
+#get_pic()
+#browser_pic()
 
